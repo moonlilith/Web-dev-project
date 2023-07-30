@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lilith Dried Flora</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/08d5eb2fa3.js" crossorigin="anonymous"></script>
+    <script src="./script.js" defer></script>
+</head>
+<body>
+    <!--<div id="LoadingScreen"><p>Loading</p></div>-->
+    <div id="Background">
+        <img id="BackgroundImg" src="https://imagizer.imageshack.com/img924/9002/qrXwrg.jpg" alt="bg-image" width="1500px">
+    </div>
+    <div id="Cart" class="cart-drawer">
+        <!--<a href="javascript:void(0)" class="close-btn" onclick="closeCart()">&times;</a>-->
+        <div id="CartTitle">Flowers Bag</div>
+        <div id="CartEmpty">
+            <div>your flowers bag is empty</div>
+        </div>
+        <div id="AddBtnWrapper">
+            <button id="AddBtn">add to flowers bag</button>
+        </div>
+    </div>
+    <div id="PageBody">
+        <header class="layout-header">
+            <nav>
+                <ul>
+                    <li>
+                        <ul class="middle-menu">
+                            <li><a href="#HeroSection">Home</a></li>
+                            <li><a href="#CatalogSection">Catalog</a></li>
+                            <li><a href="#DeliverySection">Delivery</a></li>
+                            <li><a href="#ContactsSection">Contacts</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="right-menu">
+                            <li id="SearchGroup">
+                                <input id="SearchBar" type="search" onkeyup="onSearch()">
+                                <i class="fa-solid fa-magnifying-glass" onclick="toggleSearchFocus()"></i>
+                            </li>
+                            <li id="CartBtn">
+                                <i class="fa-solid fa-cart-shopping" onclick="openCart()"></i>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main class="layout-content" onclick="closeCart()">
+            <section id="HeroSection" class="section">
+                <img id="BrandLogo" src="https://imagizer.imageshack.com/img922/4999/RlsN5l.png" alt="brand-logo" width="600px">
+                <div id="Tagline">
+                    &ldquo;Capture Serenity:<br>Transform Your Space<br>with Dried Floral Delights&rdquo;
+                </div>
+                <div id="ScrollToCatalog">
+                    <button id="ScrollToCatalogBtn" onclick="scrollToCatalogSection()">shop now</button>
+                </div>
+            </section>
+            <section id="CatalogSection" class="section">
+                <div id="CatalogCategoriesSelector">
+                    <ul id="CategoriesMenu">
+                        <!-- automatic writing using JS -->
+                    </ul>
+                </div>
+                <div class="carousel_wrapper">                
+                    <div class="carousel">
+                        <div class="carousel_slider">
+                            <div class="content_inner_slider">
+                                <!-- automatic writing using JS -->
+                            </div>
+                            <button class="carousel_btn prev_button">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button class="carousel_btn next_button">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <ul class="dots">
+                            <!-- automatic writing using JS -->
+                        </ul>
+                        <!--<div class="form">
+                          <input type="checkbox" class="auto_slide" id="slide">
+                          <label for="slide">Auto Slide</label>
+                        </div>-->
+                    </div>
+                </div>
+                <div id="AllCatalog" style="display: none;">
+                    <div class="catalog-grid-container">
+                        <!-- automatic writing using JS -->
+                    </div>
+                </div>
+            </section>
+            <section id="DeliverySection" class="section">
+                delivery
+            </section>
+        </main>
+        <footer class="layout-footer">
+            <div>
+                Where to find us
+            </div>
+            <div>
+                FAQ
+            </div>
+            <div>
+                Terms and Conditions
+            </div>
+            <div>
+                Follow Our Social Medias
+            </div>
+            <div id="ContactsSection">
+                Contacts us in a way convinient for you.
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
