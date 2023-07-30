@@ -301,35 +301,46 @@ const writeCategories = () => {
 }
 
 const writeItems = () => {
+  const iw = window.innerWidth;
+  let chunkSize = 0; let cardWidth = 0;
+  if (iw < 500) {
+    chunkSize = 1; cardWidth = 220;
+  } else if (iw >= 500 && iw < 800) {
+    chunkSize = 2; cardWidth = 200;
+  } else if (iw >= 800 && iw < 1100) {
+    chunkSize = 3; cardWidth = 240;
+  } else {
+    chunkSize = 4; cardWidth = 250;
+  };
   const contentInnerSlider = document.getElementsByClassName('content_inner_slider')[0];
   const allChunks = [];
   const gridItems = itemsByCategory[shownCategory]
     .filter(el => el.name.toLowerCase().includes(searchText.toLowerCase()))
-    .map(el => `<div class="catalog-grid-item">
-      <div style="height:300px">
-        <img src=${el.src} alt=${el.alt} width="300px" height="300px" class="catalog-item-image">
-      </div>
-      <div class="card-body">
-        <p class="item-title">${el.name}</p>
-        <p class="item-description">
-          ${el.description.length > 125 ? `${el.description.slice(0, 125)}... <span class="see-more-txt">(See more)</span>` : el.description}
-        </p>
-      </div>
-      <div class="item-card-footer-wrapper">
-        <div class="item-card-footer-item">
-          <button class="atc-btn" onclick="addItemToCart('${el.id}')">Add to Cart</button>
+    .map(el => `
+      <div class="item-card" style="width:${cardWidth}px">
+        <img src=${el.src} alt=${el.alt} style="width:${cardWidth}px;height:${cardWidth}px" class="catalog-item-image">
+        <div class="card-body">
+          <p class="item-title">${el.name}</p>
+          <p class="item-description">
+            ${el.description.length > 125 ? `${el.description.slice(0, 125)}... <span class="see-more-txt">(See more)</span>` : el.description}
+          </p>
+          <div class="item-card-footer-wrapper">
+            <div class="item-card-footer-item">
+              <button class="atc-btn" onclick="addItemToCart('${el.id}')">Add to Cart</button>
+            </div>
+            <div class="item-card-footer-item">
+              <div class="item-price">Rp. ${el.price.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+            </div>
+          </div>
         </div>
-        <div class="item-card-footer-item">
-          <div class="item-price">${el.price.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-        </div>
       </div>
-    </div>`);
-  const contentChunk = chunkArray(gridItems, 3); console.log(contentChunk)
+    `);
+  const contentChunk = chunkArray(gridItems, chunkSize);
   contentChunk.forEach(chunk => allChunks.push(`<div class="content-chunk">
     ${chunk.join('')}
   </div>`));
   const dotsWrapper = document.getElementsByClassName('dots')[0];
-  dotsWrapper.innerHTML = (new Array(contentChunk.length-3).fill().map((dot, i) => `<li class="dot" value="${i}"></li>`)).join('');
+  dotsWrapper.innerHTML = (new Array(contentChunk.length).fill().map((dot, i) => `<li class="dot" value="${i}"></li>`)).join('');
   contentInnerSlider.innerHTML = allChunks.join('');
 };
 
@@ -435,7 +446,7 @@ const removeItemFromCart = (item={}) => {
 };
 
 //////// CAROUSEL ////////
-const carouselOnLoad = function() {
+const renderCarousel = function() {
   const helpers = (function () {
     function getDOMElements(DOMSelectors) {
       let DOMElements = {};
@@ -620,17 +631,18 @@ const carouselOnLoad = function() {
 //////// window functions assignment ////////
 window.onload = () => {
   writeItems();
-  carouselOnLoad();
+  renderCarousel();
   writeCategories();
   adjustGridContainerStyle();
   adjustItemFooterWrapperStyle();
 };
 window.onresize = () => {
+  writeItems();
+  renderCarousel();
   adjustGridContainerStyle();
   adjustItemFooterWrapperStyle();
 };
 window.onscroll = () => {
   adjustHeaderBg();
-  console.log(itemsInCart)
 };
 
