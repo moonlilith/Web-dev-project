@@ -481,7 +481,7 @@ const renderCarousel = function() {
     return {
       state,
       CONSTANTS,
-      addConstant
+      addConstant,
     };
   })();
 
