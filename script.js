@@ -310,7 +310,7 @@ const writeItems = () => {
   } else if (iw >= 800 && iw < 1100) {
     chunkSize = 3; cardWidth = 240;
   } else {
-    chunkSize = 4; cardWidth = 250;
+    chunkSize = 4; cardWidth = 300;
   };
   const contentInnerSlider = document.getElementsByClassName('content_inner_slider')[0];
   const allChunks = [];
@@ -644,5 +644,8 @@ window.onresize = () => {
 };
 window.onscroll = () => {
   adjustHeaderBg();
+};
+document.onmouseenter = () => {
+  console.log({ itemsInCart })
 };
 
