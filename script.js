@@ -260,6 +260,41 @@ const categoryTitles = {
   fr: 'Frames',
 };
 
+//////// Submit Same Day Delivery ////////
+
+document.getElementById('SubmitOrderBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  const fields = ['receiver', 'address'];
+  const elementIds = ['ReceiverName', 'ReceiverAddress'];
+  const payload = {};
+  for (let i=0; i<fields.length; i+=1) {
+    const field = fields[i];
+    const elementId = elementIds[i];
+    const { value } = document.getElementsByName(field)[0];
+    if (!value) {
+      alert(`Please fill in the ${field} field!`);
+      break;
+    } else {
+      payload[field] = value;
+      const el = document.getElementById(elementId);
+      el.innerHTML = value;
+    };
+  };
+  if ([1, ...Object.values(payload)].reduce((s, t) => s && t)) {
+    const modal = document.getElementById('DeliverySubmitModal');
+    const closeModalBtn = document.getElementsByClassName('close')[0];
+    modal.style.display = 'block';
+    closeModalBtn.onclick = () => {
+      modal.style.display = 'none';
+    };
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+  };
+});
+
 //////// INITIAL VALUES ////////
 
 let searchText = '';
@@ -296,8 +331,12 @@ const writeCategories = () => {
       onclick="setShownCategory('${entry[0]}')"
       class="category-selection ${entry[0] === shownCategory ? 'active-category' : ''}"
     >${entry[1]}</li>
-  `).join('');
-  categoriesMenu.innerHTML = menuItems;
+  `);
+  menuItems.push(`<li id="SearchGroup">
+    <input id="SearchBar" type="search" onkeyup="onSearch()">
+    <i class="fa-solid fa-magnifying-glass" onclick="toggleSearchFocus()"></i>
+  </li>`);
+  categoriesMenu.innerHTML = menuItems.join('');
 }
 
 const writeItems = () => {
@@ -347,6 +386,58 @@ const writeItems = () => {
 //////// DYNAMIC STYLING SECTION ////////
 
 // #Cart
+const writeCartItems = () => {
+  writeNumberOfCartItems();
+  let content;
+  if (itemsInCart.length === 0) {
+    content = `<div id="CartEmpty">
+    <div>your flowers bag is empty</div>
+    </div>`;
+  } else {
+    const itemIds = [ ...new Set(itemsInCart.map(item => item.id)) ];
+    const cartItems = [];
+    for (let i=0; i<itemIds.length; i+=1) {
+      const itemId = itemIds[i];
+      cartItems.push({ ...itemsInCart.find(item => item.id === itemId), qty: itemsInCart.filter(item => item.id === itemId).length });
+    };
+    content = `<div id="CartFilled">
+      <ul>
+        ${cartItems.map(item => `<li>
+          <div class="cart-item">
+            <div class="cart-item-img">
+              <img src=${item.src} alt=${item.alt} style="width:100px;height:100px">
+              <br />
+              <div class="cart-item-name">${item.name}</div>
+            </div>
+            <br />
+            <div class="cart-item-actions">
+              <button id="CartItemAdd" onclick="addItemToCart('${item.id}')">Add</button>
+              <span style="width:30px;text-align:center">${item.qty}</span>
+              <button id=CartItemRemove" onclick="removeItemFromCart('${item.id}')">Remove</button>
+            </div>
+            <br />
+          </div>
+        </li>`).join('')}
+      </ul>
+    </div>`
+  };
+  const cartBody = document.getElementById('CartBody');
+  cartBody.innerHTML = content;
+};
+const writeNumberOfCartItems = () => {
+  const badge = document.getElementById('Badge');
+  const numberOfCartItems = document.getElementById('NumberOfCartItems');
+  const amount = itemsInCart.length;
+  badge.innerHTML = amount;
+  numberOfCartItems.innerHTML = `(${amount})`;
+  if (amount > 0) {
+    badge.style.display = 'block';
+    numberOfCartItems.style.display = 'inline';
+  } else {
+    badge.style.display = 'none';
+    numberOfCartItems.style.display = 'none';
+  };
+};
 const openCart = () => {
   document.getElementById("Cart").style.width = "500px";
   document.getElementById("PageBody").style.filter = "brightness(0.2)";
@@ -434,15 +525,13 @@ const setShownCategory = (category='') => {
 const addItemToCart = (itemID='') => {
   const item = arrayOfItems.find(el => el.id === itemID);
   itemsInCart.push(item);
+  writeCartItems();
 };
 
-const removeItemFromCart = (item={}) => {
-  const stringifiedItems = itemsInCart.map(el => JSON.stringify(el));
-  const stringifiedItem = JSON.stringify(item);
-  const match = stringifiedItems.find(el => el === stringifiedItem);
-  const index = stringifiedItems.indexOf(match);
-  const newItemsInCart = itemsInCart.splice(index, 1);
-  itemsInCart = [...newItemsInCart];
+const removeItemFromCart = (itemID='') => {
+  const index = itemsInCart.map(el => el.id).indexOf(itemID);
+  itemsInCart.splice(index, 1);
+  writeCartItems();
 };
 
 //////// CAROUSEL ////////
@@ -630,6 +719,7 @@ const renderCarousel = function() {
 
 //////// window functions assignment ////////
 window.onload = () => {
+  writeCartItems();
   writeItems();
   renderCarousel();
   writeCategories();

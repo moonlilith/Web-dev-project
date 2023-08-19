@@ -9,15 +9,13 @@
     <script src="./script.js" defer></script>
 </head>
 <body>
-    <!--<div id="LoadingScreen"><p>Loading</p></div>-->
     <div id="Background">
         <img id="BackgroundImg" src="https://imagizer.imageshack.com/img924/9002/qrXwrg.jpg" alt="bg-image" width="1600px">
     </div>
     <div id="Cart" class="cart-drawer">
-        <!--<a href="javascript:void(0)" class="close-btn" onclick="closeCart()">&times;</a>-->
-        <div id="CartTitle">Flowers Bag</div>
-        <div id="CartEmpty">
-            <div>your flowers bag is empty</div>
+        <div id="CartTitle">Flowers Bag <span id="NumberOfCartItems"><!-- automatic writing using JS --></span></div>
+        <div id="CartBody">
+            <!-- automatic writing using JS -->
         </div>
         <div id="AddBtnWrapper">
             <button id="AddBtn">add to flowers bag</button>
@@ -37,12 +35,9 @@
                     </li>
                     <li>
                         <ul class="right-menu">
-                            <li id="SearchGroup">
-                                <input id="SearchBar" type="search" onkeyup="onSearch()">
-                                <i class="fa-solid fa-magnifying-glass" onclick="toggleSearchFocus()"></i>
-                            </li>
                             <li id="CartBtn">
                                 <i class="fa-solid fa-cart-shopping" onclick="openCart()"></i>
+                                <div id="Badge"><!-- automatic writing using JS --></div>
                             </li>
                         </ul>
                     </li>
@@ -81,10 +76,6 @@
                         <ul class="dots">
                             <!-- automatic writing using JS -->
                         </ul>
-                        <!--<div class="form">
-                          <input type="checkbox" class="auto_slide" id="slide">
-                          <label for="slide">Auto Slide</label>
-                        </div>-->
                     </div>
                 </div>
                 <div id="AllCatalog" style="display: none;">
@@ -98,14 +89,14 @@
                 <div id="DeliveryFormWrapper">
                     <div id="DeliveryForm">
                         <div>
-                            <form>
+                            <form id="DeliveryFormFields">
                                 <div class="form-item">
                                     <div class="label-wrapper">
                                         <label>Receiver</label>
                                     </div>
                                     <br />
                                     <div class="form-input">
-                                        <input type="text" name="receiver" maxlength="30" value="" placeholder="Ms. Booke" />
+                                        <input type="text" name="receiver" maxlength="30" value="" placeholder="Ms. Booke"  required="true"/>
                                     </div>
                                 </div>
                                 &nbsp;&nbsp;
@@ -115,12 +106,12 @@
                                     </div>
                                     <br />
                                     <div class="form-input">
-                                        <input type="text" name="address" maxlength="100" value="" placeholder="Baker St. 123" />
+                                        <input type="text" name="address" maxlength="100" value="" placeholder="Baker St. 123" required="true"/>
                                     </div>
                                 </div>
                                 &nbsp;&nbsp;
                                 <div>
-                                    <input type="submit" name="submit" value="Deliver Now" />
+                                    <input type="submit" name="submit" value="Deliver Now" id="SubmitOrderBtn"/>
                                 </div>
                             </form>
                         </div>
@@ -145,6 +136,22 @@
                 Contacts us in a way convinient for you.
             </div>
         </footer>
+    </div>
+    <div id="DeliverySubmitModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Sweet!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Your <i>same day delivery order</i> is submitted and will be delivered to</p>
+                <p id="ReceiverName"></p>
+                <p id="ReceiverAddress"></p>
+            </div>
+            <div class="modal-footer">
+                <h3>Thank you for purchasing! :-)</h3>
+            </div>
+        </div>
     </div>
 </body>
 </html>
