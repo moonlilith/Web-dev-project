@@ -280,7 +280,7 @@ document.getElementById('SubmitOrderBtn').addEventListener('click', function(e) 
       el.innerHTML = value;
     };
   };
-  if ([1, ...Object.values(payload)].reduce((s, t) => s && t)) {
+  if (payload.receiver && payload.address) {
     const modal = document.getElementById('DeliverySubmitModal');
     const closeModalBtn = document.getElementsByClassName('close')[0];
     modal.style.display = 'block';
@@ -401,7 +401,7 @@ const writeCartItems = () => {
       cartItems.push({ ...itemsInCart.find(item => item.id === itemId), qty: itemsInCart.filter(item => item.id === itemId).length });
     };
     content = `<div id="CartFilled">
-      <ul>
+      <ul style="height:400px;overflow-y:scroll">
         ${cartItems.map(item => `<li>
           <div class="cart-item">
             <div class="cart-item-img">
@@ -411,29 +411,38 @@ const writeCartItems = () => {
             </div>
             <br />
             <div class="cart-item-actions">
-              <button id="CartItemAdd" onclick="addItemToCart('${item.id}')">Add</button>
+              <button id="CartItemRemove" onclick="removeItemFromCart('${item.id}')">-</button>
               <span style="width:30px;text-align:center">${item.qty}</span>
-              <button id=CartItemRemove" onclick="removeItemFromCart('${item.id}')">Remove</button>
+              <button id="CartItemAdd" onclick="addItemToCart('${item.id}')">+</button>
             </div>
             <br />
           </div>
         </li>`).join('')}
       </ul>
+      <div style="font-size:24px;margin-bottom:30px;margin-left:30px">
+        Total Payment: Rp. ${([0, ...itemsInCart.map(item => item.price)].reduce((s, t) => s + t)).toLocaleString('en', { maximumFractionDigits: 2, minimumFractionDigits: 2 })}
+      </div>
     </div>`
   };
   const cartBody = document.getElementById('CartBody');
   cartBody.innerHTML = content;
 };
 const writeNumberOfCartItems = () => {
+  const checkoutBtn = document.getElementById('CheckoutBtn');
+  const clearCart = document.getElementById('ClearCart');
   const badge = document.getElementById('Badge');
   const numberOfCartItems = document.getElementById('NumberOfCartItems');
   const amount = itemsInCart.length;
   badge.innerHTML = amount;
   numberOfCartItems.innerHTML = `(${amount})`;
   if (amount > 0) {
+    checkoutBtn.style.visibility = 'visible';
+    clearCart.style.visibility = 'visible';
     badge.style.display = 'block';
     numberOfCartItems.style.display = 'inline';
   } else {
+    checkoutBtn.style.visibility = 'hidden';
+    clearCart.style.visibility = 'hidden';
     badge.style.display = 'none';
     numberOfCartItems.style.display = 'none';
   };
@@ -524,6 +533,9 @@ const setShownCategory = (category='') => {
 
 const addItemToCart = (itemID='') => {
   const item = arrayOfItems.find(el => el.id === itemID);
+  const slideOut = document.getElementById('Notif');
+  slideOut.innerHTML = `${item.name} added to cart`;
+  slideOut.classList.toggle('visible');
   itemsInCart.push(item);
   writeCartItems();
 };
@@ -532,6 +544,12 @@ const removeItemFromCart = (itemID='') => {
   const index = itemsInCart.map(el => el.id).indexOf(itemID);
   itemsInCart.splice(index, 1);
   writeCartItems();
+};
+
+const clearCart = () => {
+  itemsInCart = [];
+  writeCartItems();
+  writeNumberOfCartItems();
 };
 
 //////// CAROUSEL ////////
@@ -715,6 +733,14 @@ const renderCarousel = function() {
     controller.removeEventListeners();
     controller.initApp();
   });
+};
+
+//////// document function ////////
+
+document.getElementById('AddMoreItemsBtn').onclick = () => {
+  closeCart();
+  const catalogSection = document.getElementById('CatalogSection');
+  catalogSection.scrollIntoView();
 };
 
 //////// window functions assignment ////////

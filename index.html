@@ -13,12 +13,18 @@
         <img id="BackgroundImg" src="https://imagizer.imageshack.com/img924/9002/qrXwrg.jpg" alt="bg-image" width="1600px">
     </div>
     <div id="Cart" class="cart-drawer">
-        <div id="CartTitle">Flowers Bag <span id="NumberOfCartItems"><!-- automatic writing using JS --></span></div>
+        <div id="CartTitle">
+            Flowers Bag&nbsp;&nbsp;
+            <span id="NumberOfCartItems"><!-- automatic writing using JS --></span>&nbsp;&nbsp;
+            <span id="ClearCart" onclick="clearCart()">Clear Cart</span>
+        </div>
         <div id="CartBody">
             <!-- automatic writing using JS -->
         </div>
         <div id="AddBtnWrapper">
-            <button id="AddBtn">add to flowers bag</button>
+            <!-- automatic writing using JS -->
+            <button id="AddMoreItemsBtn">add more items</button>
+            <button id="CheckoutBtn">check out</button>
         </div>
     </div>
     <div id="PageBody">
@@ -120,23 +126,28 @@
             </section>
         </main>
         <footer class="layout-footer">
-            <div>
-                Where to find us
+            <div class="col">
+                <div>
+                    Where to find us
+                </div>
+                <div>
+                    FAQ
+                </div>
+                <div>
+                    Terms and Conditions
+                </div>
             </div>
-            <div>
-                FAQ
-            </div>
-            <div>
-                Terms and Conditions
-            </div>
-            <div>
-                Follow Our Social Medias
-            </div>
-            <div id="ContactsSection">
-                Contacts us in a way convinient for you.
+            <div class="col">
+                <div>
+                    Follow Our Social Medias
+                </div>
+                <div id="ContactsSection">
+                    Contacts us in a way convinient for you
+                </div>
             </div>
         </footer>
     </div>
+    <div id="Notif"><!-- automatic writing using JS --></div>
     <div id="DeliverySubmitModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">

@@ -23,6 +23,16 @@
   100% { transform: scaleX(0); }
 }
 
+@keyframes movein {
+  from { left: -500px; }
+  to   { left: 10px; }
+}
+
+@keyframes moveout {
+  from { left: 10px; }
+  to   { left: -500px; }
+}
+
 @keyframes tonext {
   75% {
     left: 0;
@@ -148,6 +158,17 @@ body #PageBody{
   border-bottom: 2px double var(--white);
   padding: 0 0 10px 20px;
 }
+#ClearCart {
+  background-color: var(--black);
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 var(--black);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+}
+#CartTitle #ClearCart {
+  visibility: hidden;
+}
 #CartTitle #NumberOfCartItems {
   display: none;
 }
@@ -164,6 +185,31 @@ body #PageBody{
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+#CartItemAdd, #CartItemRemove {
+  background-color: var(--white);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 var(--white);
+  color: var(--brown);
+  cursor: pointer;
+  font-weight: 700;
+  height: 20px;
+  text-align: center;
+  width: 20px;
+}
+#CheckoutBtn {
+  background-color: var(--white);
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 var(--white);
+  color: var(--brown);
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: 700;
+  padding: 20px;
+  text-align: center;
+  visibility: 'hidden';
 }
 
 #AddBtnWrapper {
@@ -203,7 +249,7 @@ header {
   position: sticky;
   text-align: center;
   top: 0;
-  z-index: 10;
+  z-index: 20;
   transition: all 0.3s ease-in-out;
 }
 
@@ -320,11 +366,11 @@ input[type=search]::-webkit-search-results-decoration { display: none; }
   border-radius: 50%;
   display: none;
   font-size: 12px;
-  height: 14px;
-  line-height: 14px;
+  height: 16px;
+  line-height: 16px;
   padding-left: 1px;
   position: absolute;
-  right: 115px;
+  right: 130px;
   text-align: center;
   top: 33px;
   width: 14px;
@@ -571,7 +617,7 @@ footer {
   color: var(--white);
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   display: flex;
   align-items: center;
@@ -627,7 +673,7 @@ footer {
 .content-chunk {
   display: flex;
   flex: 0 0 100%;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .content-chunk.active {
   visibility: visible;
@@ -790,6 +836,32 @@ footer {
   margin-left: 50px;
 }
 .layout-footer {
+  background-color: var(--black-transparent);
+  display: flex;
+  gap: 100px;
+  flex-direction: row;
   margin-top: 100px;
+  padding: 30px;
   position: relative;
+}
+.layout-footer > .col > div {
+  margin-bottom: 20px;
+}
+#Notif {
+  width: 200px;
+  height: 100px;
+  background: var(--white);
+  color: var(--black);
+  border-radius: 3px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: fixed;
+  top: 100px;
+  left: -500px;
+}
+.visible {
+  animation: movein 0.15s ease forwards, moveout 0.15s 1s ease forwards;
 }
